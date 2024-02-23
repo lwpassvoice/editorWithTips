@@ -1,1 +1,1 @@
-# editorWithTips
+# editor-with-tips
