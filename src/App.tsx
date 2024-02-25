@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import './App.css'
-import EditorWithTips from './Editor/EditorWithTips'
+import './App.css';
+import EditorWithTips from './Editor/EditorWithTips';
 
 function App() {
 
