@@ -1,5 +1,4 @@
 .editor {
-  margin-left: 200px;
   position: relative;
 
   /* 去除默认样式 */
@@ -22,7 +21,7 @@
   }
 
   /* 自定义样式 */
-  .mo-textarea {
+  .mo-basic {
     display: block;
     width: 300px;
     height: 200px;
@@ -38,21 +37,25 @@
   }
 
   /* 提示文字 */
-  .mo-textarea::placeholder {
+  .mo-basic::placeholder {
     color: #c0c4cc;
   }
 
   /* 鼠标hover */
-  .mo-textarea:hover {
+  .mo-basic:hover {
     border-color: #c0c4cc;
   }
 
   /* 获得焦点 */
-  .mo-textarea:focus {
+  .mo-basic:focus {
     border-color: #3677f0;
   }
 
-  .mo-editable {}
+  .mo-textarea {}
+
+  .mo-editable {
+
+  }
 
   .tips {
     color: #b3b6bb;
