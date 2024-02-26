@@ -11,9 +11,16 @@ interface CaretPosition {
   top: number;
 }
 
-// TODO: get tips form api
-const generateRandomString = () => {
-  return Math.random().toString(36).substring(2, 15);
+const getCompletionFromApi = async (inputText: string) => {
+  const response = await fetch('http://localhost:8000/api/smartCompose', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ text: inputText }),
+  });
+  const data = await response.json();
+  return data.completion;
 };
 
 const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
@@ -127,14 +134,24 @@ const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
     return { left, top: paddingTop };
   }
 
+  const getValueFromElement = (element: HTMLElement): string => {
+    if (element instanceof HTMLTextAreaElement) {
+      return element.value;
+    } else if (element.isContentEditable) {
+      return element.textContent || '';
+    }
+    return '';
+  };
+
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement | HTMLDivElement>) => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = window.setTimeout(() => {
+    debounceTimer.current = window.setTimeout(async () => {
       const target = e.target as HTMLTextAreaElement | HTMLDivElement;
       const isAtEnd = target.classList.contains('mo-textarea') ? isCursorAtEnd(target as HTMLTextAreaElement) : isCursorAtEndOfContentEditable(target);
       if (isAtEnd) {
-        const randomString = generateRandomString();
-        setTipsContent(randomString);
+        const value = getValueFromElement(target);
+        const completion = await getCompletionFromApi(value);
+        setTipsContent(completion);
         // FIXME: position not correct
         // const cursorPosition = target.classList.contains('mo-textarea') ? getCaretCoordinates(target as HTMLTextAreaElement) : getCaretCoordinatesForContentEditable(target as HTMLDivElement);
         const cursorPosition = target.classList.contains('mo-textarea') ? getCaretCoordinatesSimply(target as HTMLTextAreaElement) : getCaretCoordinatesForContentEditable();
