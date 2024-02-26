@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Editor.scss';
 import Tips from './Tips';
+import getCaretCoordinates from '../tools/getCaretCoordinates';
 
 interface EditorWithTipsProps {
   children: React.ReactNode;
@@ -93,16 +94,16 @@ const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
   };
 
   // TODO: Refer https://github.com/component/textarea-caret-position
-  const getCaretCoordinatesSimply = (element: HTMLTextAreaElement): CaretPosition => {
+  const getCaretCoordinatesSimply = (
+    element: HTMLTextAreaElement
+  ): CaretPosition => {
     const rect = element.getBoundingClientRect();
-    const style = getComputedStyle(element);
-    const paddingTop = parseInt(style.paddingTop, 10);
-    const paddingLeft = parseInt(style.paddingLeft, 10);
-    const fontSize = parseInt(style.fontSize, 10);
-    const left = rect.left + window.pageXOffset + paddingLeft + element.value.length * fontSize + 4;
-    const top = rect.top + window.pageYOffset + paddingTop;
-    return { left, top };
-  }
+    const pos = getCaretCoordinates(element, element.selectionEnd);
+    return {
+      left: pos.left + rect.left + window.pageXOffset + 4,
+      top: pos.top + rect.top + window.pageYOffset - element.scrollTop,
+    };
+  };
 
   const getValueFromElement = (element: HTMLElement): string => {
     if (element instanceof HTMLTextAreaElement) {
