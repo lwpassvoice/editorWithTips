@@ -77,33 +77,6 @@ const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
     return clonedRange.toString() === '';
   };
 
-  // const getCaretCoordinates = (element: HTMLTextAreaElement) => {
-  //   const position = element.selectionStart;
-  //   const div = document.createElement('div');
-  //   document.body.appendChild(div);
-  //   const style = getComputedStyle(element);
-  //   const props = ['font-size', 'font-family', 'width', 'text-align', 'letter-spacing', 'padding'];
-  //   props.forEach(prop => {
-  //     // @ts-ignore
-  //     div.style[prop as keyof CSSStyleDeclaration] = style[prop as keyof CSSStyleDeclaration];
-  //   });
-  //   div.textContent = element.value.substr(0, position);
-  //   const span = document.createElement('span');
-  //   span.textContent = element.value.substr(position) || '.';
-  //   div.appendChild(span);
-  //   const coordinates = { left: span.offsetLeft, top: span.offsetTop };
-  //   document.body.removeChild(div);
-  //   return coordinates;
-  // };
-
-  // const getCaretCoordinatesForContentEditable1 = (element: HTMLDivElement): CaretPosition => {
-  //   const selection = window.getSelection();
-  //   if (!selection || selection.rangeCount === 0) return { left: 0, top: 0 };
-  //   const range = selection.getRangeAt(0).cloneRange();
-  //   const rect = range.getBoundingClientRect();
-  //   return { left: rect.left, top: rect.top };
-  // };
-
   const getCaretCoordinatesForContentEditable = (): CaretPosition => {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0) return { left: 0, top: 0 };
