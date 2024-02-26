@@ -116,22 +116,18 @@ const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
   
     span.parentNode!.removeChild(span);
   
-    return { left: rect.left, top: rect.top };
+    return { left: rect.left + 4, top: rect.top };
   };
 
   const getCaretCoordinatesSimply = (element: HTMLTextAreaElement): CaretPosition => {
+    const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
-    // @ts-ignore
-    const paddingTop = parseInt(style['padding-top']);
-    // @ts-ignore
-    const paddingLeft = parseInt(style['padding-left']);
-    // @ts-ignore
-    const fontSize = parseInt(style['font-size']);
-    // FIXME: left may not correct
-    // @ts-ignore
-    const left = paddingLeft + element.value.length * fontSize + 4;
-    // @ts-ignore
-    return { left, top: paddingTop };
+    const paddingTop = parseInt(style.paddingTop, 10);
+    const paddingLeft = parseInt(style.paddingLeft, 10);
+    const fontSize = parseInt(style.fontSize, 10);
+    const left = rect.left + window.pageXOffset + paddingLeft + element.value.length * fontSize + 4;
+    const top = rect.top + window.pageYOffset + paddingTop;
+    return { left, top };
   }
 
   const getValueFromElement = (element: HTMLElement): string => {
