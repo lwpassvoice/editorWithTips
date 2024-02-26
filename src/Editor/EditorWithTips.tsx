@@ -92,6 +92,7 @@ const EditorWithTips: React.FC<EditorWithTipsProps> = ({ children }) => {
     return { left: rect.left + 4, top: rect.top };
   };
 
+  // TODO: Refer https://github.com/component/textarea-caret-position
   const getCaretCoordinatesSimply = (element: HTMLTextAreaElement): CaretPosition => {
     const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
